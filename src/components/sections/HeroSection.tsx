@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { Typewriter } from "./Typewriter";
-import { Petals, Stars } from "./Particles";
+import { Typewriter } from "../Typewriter";
+import { Petals, Stars } from "../Particles";
 
 interface Props {
   onEnter: () => void;
