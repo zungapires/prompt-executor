@@ -10,9 +10,9 @@ interface Props {
 export const HeroSection = ({ onEnter }: Props) => {
   const [phase, setPhase] = useState(0);
   const lines = [
-    "Olá, meu amor…",
-    "Existe algo que o meu coração queria muito te dizer...",
-    "Então eu transformei os meus sentimentos numa experiência feita especialmente para ti.",
+    "Olá, Shewlsea…",
+    "Existe algo que o meu coração precisava muito te dizer.",
+    "Então transformei tudo o que sinto numa pequena experiência — feita só para ti.",
   ];
 
   return (

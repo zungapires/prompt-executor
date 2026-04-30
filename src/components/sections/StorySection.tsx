@@ -2,11 +2,13 @@ import { motion } from "framer-motion";
 import { CharacterDoll } from "../CharacterDoll";
 
 const messages = [
-  "Ultimamente tenho sentido a tua distância…",
-  "As tuas respostas ficaram diferentes…",
-  "E mesmo tentando entender, continuo aqui porque te amo muito.",
-  "Não fiz esta página para te pressionar…",
-  "Fiz porque tu és importante para mim.",
+  "Lembras-te de quando, no início, eu te propus que tivéssemos algo entre nós?",
+  "Fomos sendo conduzidos, devagar, até uma concordância… e tu, por acaso, acabaste por aceitar.",
+  "Aquele 'sim' tornou-se uma das coisas mais bonitas que já me aconteceram.",
+  "Mas ultimamente tenho sentido a tua distância — e o silêncio dói mais do que qualquer resposta.",
+  "Por isso eu só queria perguntar-te de novo, com o coração na mão: ainda dá para nós?",
+  "Se a tua resposta for a mesma de antes, vou ser o homem mais feliz do mundo.",
+  "E se não for… também está tudo bem. Eu só preciso de uma resposta — qualquer que ela seja é melhor do que o silêncio.",
 ];
 
 export const StorySection = () => {

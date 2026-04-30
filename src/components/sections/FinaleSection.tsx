@@ -46,9 +46,12 @@ export const FinaleSection = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 2, delay: 2 }}
-          className="mt-16 text-night-foreground/60 font-serif-display italic"
+          className="mt-16 space-y-3 text-night-foreground/70 font-serif-display italic"
         >
-          ❤️ Fim ❤️
+          <p className="text-2xl">❤️ Fim ❤️</p>
+          <p className="font-script text-xl md:text-2xl text-rose">
+            Desenvolvido por Zunga Pires, com amor para Shewlsea ❤️
+          </p>
         </motion.div>
       </div>
     </section>
