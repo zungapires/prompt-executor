@@ -1,26 +1,57 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export const ChoiceSection = () => {
-  const [answered, setAnswered] = useState(false);
-  const [confetti, setConfetti] = useState<Array<{ id: number; left: number; delay: number; color: string }>>([]);
+  const [answered, setAnswered] = useState<"yes" | "no" | null>(null);
+  const [confetti, setConfetti] = useState<
+    Array<{ id: number; left: number; delay: number; color: string }>
+  >([]);
   const [noPos, setNoPos] = useState({ x: 0, y: 0 });
+  const [dodgeCount, setDodgeCount] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const noBtnRef = useRef<HTMLButtonElement>(null);
 
-  const handleNoHover = () => {
-    const maxX = 200;
-    const maxY = 80;
-    setNoPos({
-      x: (Math.random() - 0.5) * maxX * 2,
-      y: (Math.random() - 0.5) * maxY * 2,
-    });
+  const dodge = () => {
+    const container = containerRef.current;
+    const btn = noBtnRef.current;
+    if (!container || !btn) return;
+
+    const cRect = container.getBoundingClientRect();
+    const bRect = btn.getBoundingClientRect();
+
+    // Center of button (without offset)
+    const baseCenterX = bRect.left + bRect.width / 2 - noPos.x;
+    const baseCenterY = bRect.top + bRect.height / 2 - noPos.y;
+
+    // Safe range so the button stays inside the container
+    const margin = 12;
+    const minX = cRect.left + bRect.width / 2 + margin - baseCenterX;
+    const maxX = cRect.right - bRect.width / 2 - margin - baseCenterX;
+    const minY = cRect.top + bRect.height / 2 + margin - baseCenterY;
+    const maxY = cRect.bottom - bRect.height / 2 - margin - baseCenterY;
+
+    const rand = (a: number, b: number) => a + Math.random() * (b - a);
+    setNoPos({ x: rand(minX, maxX), y: rand(minY, maxY) });
+    setDodgeCount((c) => c + 1);
   };
 
+  // Reset position if user resizes
+  useEffect(() => {
+    const onResize = () => setNoPos({ x: 0, y: 0 });
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
   const handleYes = () => {
-    setAnswered(true);
-    const colors = ["hsl(345 80% 65%)", "hsl(280 60% 75%)", "hsl(40 80% 70%)", "hsl(350 80% 80%)"];
+    setAnswered("yes");
+    const colors = [
+      "hsl(345 80% 65%)",
+      "hsl(280 60% 75%)",
+      "hsl(40 80% 70%)",
+      "hsl(350 80% 80%)",
+    ];
     setConfetti(
-      Array.from({ length: 60 }, (_, i) => ({
+      Array.from({ length: 70 }, (_, i) => ({
         id: i,
         left: Math.random() * 100,
         delay: Math.random() * 0.5,
@@ -30,43 +61,81 @@ export const ChoiceSection = () => {
   };
 
   return (
-    <section ref={containerRef} className="relative overflow-hidden bg-gradient-to-b from-background via-blush/40 to-background py-32">
-      <div className="container mx-auto max-w-3xl px-6 text-center">
+    <section className="relative overflow-hidden bg-gradient-to-b from-background via-blush/40 to-background py-32">
+      <div
+        ref={containerRef}
+        className="container relative mx-auto max-w-3xl px-6 text-center"
+      >
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-16 font-serif-display text-4xl md:text-6xl text-gradient-romance"
+          className="mb-6 font-serif-display text-4xl md:text-6xl text-gradient-romance"
         >
-          Ainda posso continuar te amando?
+          Ainda dá para nós, Shewlsea?
         </motion.h2>
 
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="mx-auto mb-16 max-w-xl font-serif-display text-lg italic text-muted-foreground"
+        >
+          Se a tua resposta for a mesma de antes, o meu coração vai sorrir.
+          E se não for… também está tudo bem. Eu só preciso de uma resposta.
+        </motion.p>
+
         <AnimatePresence mode="wait">
-          {!answered ? (
+          {answered === null ? (
             <motion.div
               key="choice"
               exit={{ opacity: 0, scale: 0.8 }}
-              className="flex flex-wrap items-center justify-center gap-8"
+              className="relative flex min-h-[220px] flex-wrap items-center justify-center gap-6 sm:gap-10"
             >
               <motion.button
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 1.08 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleYes}
-                className="animate-pulse-glow rounded-full bg-gradient-to-r from-crimson to-rose px-12 py-6 font-sans-soft text-2xl font-semibold text-primary-foreground shadow-deep"
+                className="animate-pulse-glow rounded-full bg-gradient-to-r from-crimson to-rose px-10 py-5 sm:px-12 sm:py-6 font-sans-soft text-xl sm:text-2xl font-semibold text-primary-foreground shadow-deep"
               >
-                SIM ❤️
+                SIM, ainda dá ❤️
               </motion.button>
 
               <motion.button
+                ref={noBtnRef}
                 animate={{ x: noPos.x, y: noPos.y }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                onMouseEnter={handleNoHover}
-                onTouchStart={handleNoHover}
-                onClick={handleNoHover}
-                className="rounded-full border-2 border-muted-foreground/40 bg-background px-12 py-6 font-sans-soft text-2xl font-medium text-muted-foreground"
+                transition={{ type: "spring", stiffness: 260, damping: 18 }}
+                onMouseEnter={dodge}
+                onTouchStart={(e) => {
+                  e.preventDefault();
+                  dodge();
+                }}
+                onPointerDown={(e) => {
+                  // On touch devices, dodge before click registers
+                  if (e.pointerType !== "mouse") {
+                    e.preventDefault();
+                    dodge();
+                  }
+                }}
+                onClick={() => {
+                  // Fallback: only triggers if somehow caught
+                  dodge();
+                }}
+                className="rounded-full border-2 border-muted-foreground/40 bg-background px-10 py-5 sm:px-12 sm:py-6 font-sans-soft text-xl sm:text-2xl font-medium text-muted-foreground"
               >
-                NÃO 💔
+                Não 💔
               </motion.button>
+
+              {dodgeCount >= 3 && (
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="absolute -bottom-12 left-1/2 -translate-x-1/2 whitespace-nowrap font-script text-lg text-crimson"
+                >
+                  o "não" está a fugir de ti… 💕
+                </motion.p>
+              )}
             </motion.div>
           ) : (
             <motion.div
@@ -78,7 +147,7 @@ export const ChoiceSection = () => {
             >
               <div className="mb-4 text-6xl">💖</div>
               <p className="font-serif-display text-2xl md:text-3xl italic text-crimson">
-                "Sabia que o teu coração ainda tinha espaço para mim ❤️"
+                "Eu sabia que o teu coração ainda tinha um lugarzinho para mim, Shewlsea ❤️"
               </p>
             </motion.div>
           )}
