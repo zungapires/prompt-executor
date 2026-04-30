@@ -23,18 +23,19 @@ export const LetterSection = () => {
             </div>
           </div>
 
-          <h2 className="mb-8 text-center font-script text-4xl md:text-5xl text-crimson">Para ti…</h2>
+          <h2 className="mb-8 text-center font-script text-4xl md:text-5xl text-crimson">Para ti, Shewlsea…</h2>
 
           <div className="space-y-5 font-serif-display text-xl md:text-2xl italic leading-relaxed text-foreground/90">
-            <p>Independentemente de tudo…</p>
-            <p>Tu continuas sendo alguém muito especial para mim.</p>
-            <p>E eu só precisava que soubesses disso.</p>
-            <p>Obrigado por ler até aqui.</p>
+            <p>Independentemente da tua resposta…</p>
+            <p>Tu continuas a ser alguém muito especial para mim.</p>
+            <p>Só te peço uma coisa: não me deixes no silêncio.</p>
+            <p>Uma resposta — seja ela qual for — é tudo o que o meu coração precisa para descansar.</p>
+            <p>Obrigado por leres até aqui. Significa mais do que imaginas.</p>
           </div>
 
           <div className="mt-10 text-right">
             <p className="font-serif-display text-lg text-muted-foreground">Com todo o amor,</p>
-            <p className="mt-2 font-script text-4xl text-crimson">— Eu ❤️</p>
+            <p className="mt-2 font-script text-4xl text-crimson">— Zunga Pires ❤️</p>
           </div>
         </div>
       </motion.div>
